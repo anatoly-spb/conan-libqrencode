@@ -8,10 +8,10 @@ import os
 class LibnameConan(ConanFile):
     name = "libqrencode"
     version = "4.0.0"
-    url = ""
+    url = "https://github.com/anatoly-spb/conan-libqrencode.git"
     description = "A fast and compact QR Code encoding library"
-    license = "https://github.com/fukuchi/libqrencode/blob/master/COPYING"
-    exports_sources = ["CMakeLists.txt", "LICENSE"]
+    license = "Open source: https://github.com/fukuchi/libqrencode/blob/master/COPYING"
+    exports_sources = ["CMakeLists.txt", "COPYING"]
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False]}
     default_options = "shared=False"
