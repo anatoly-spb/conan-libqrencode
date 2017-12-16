@@ -11,6 +11,7 @@ class LibnameConan(ConanFile):
     url = "https://github.com/anatoly-spb/conan-libqrencode.git"
     description = "A fast and compact QR Code encoding library"
     license = "Open source: https://github.com/fukuchi/libqrencode/blob/master/COPYING"
+    exports = ["sources.patch"]
     exports_sources = ["CMakeLists.txt", "COPYING"]
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False]}
@@ -24,6 +25,7 @@ class LibnameConan(ConanFile):
         source_url = "https://github.com/fukuchi/libqrencode"
         tools.get("{0}/archive/v{1}.tar.gz".format(source_url, self.version))
         extracted_dir = self.name + "-" + self.version
+        tools.patch(base_path=extracted_dir, patch_file="sources.patch")
         os.rename(extracted_dir, "sources")
         #Rename to "sources" is a convention to simplify later steps
 
@@ -36,7 +38,7 @@ class LibnameConan(ConanFile):
 
     def package(self):
         with tools.chdir("sources"):
-            self.copy(pattern="LICENSE")
+            self.copy(pattern="COPYING")
             self.copy(pattern="*", dst="include", src="include")
             self.copy(pattern="*.dll", dst="bin", src="bin", keep_path=False)
             self.copy(pattern="*.lib", dst="lib", src="lib", keep_path=False)
