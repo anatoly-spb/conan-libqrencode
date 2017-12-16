@@ -16,6 +16,7 @@ class LibnameConan(ConanFile):
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False]}
     default_options = "shared=False"
+    generators = "cmake"
     #use static org/channel for libs in conan-center
     #use dynamic org/channel for libs in bincrafters
     requires = "libiconv/1.15@bincrafters/stable", \
@@ -26,14 +27,14 @@ class LibnameConan(ConanFile):
         tools.get("{0}/archive/v{1}.tar.gz".format(source_url, self.version))
         extracted_dir = self.name + "-" + self.version
         tools.patch(base_path=extracted_dir, patch_file="sources.patch")
-        os.rename(extracted_dir, "sources")
         #Rename to "sources" is a convention to simplify later steps
+        os.rename(extracted_dir, "sources")
 
     def build(self):
         cmake = CMake(self)
-        cmake.definitions["BUILD_TESTS"] = False 
-        cmake.definitions["BUILD_TOOLS"] = False 
-        cmake.configure(source_dir="sources")
+        cmake.definitions["WITH_TOOLS"] = False
+        cmake.definitions["WITH_TESTS"] = False
+        cmake.configure()
         cmake.build()
 
     def package(self):
