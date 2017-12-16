@@ -38,14 +38,12 @@ class LibnameConan(ConanFile):
         cmake.build()
 
     def package(self):
-        with tools.chdir("sources"):
-            self.copy(pattern="COPYING")
-            self.copy(pattern="*", dst="include", src="include")
-            self.copy(pattern="*.dll", dst="bin", src="bin", keep_path=False)
-            self.copy(pattern="*.lib", dst="lib", src="lib", keep_path=False)
-            self.copy(pattern="*.a", dst="lib", src="lib", keep_path=False)
-            self.copy(pattern="*.so*", dst="lib", src="lib", keep_path=False)
-            self.copy(pattern="*.dylib", dst="lib", src="lib", keep_path=False)
+        self.copy(pattern="qrencode.h", dst="include", src="sources", keep_path=False)
+        self.copy(pattern="*.dll", dst="bin", src="bin", keep_path=False)
+        self.copy(pattern="*.lib", dst="lib", src="lib", keep_path=False)
+        self.copy(pattern="*.a", dst="lib", src="lib", keep_path=False)
+        self.copy(pattern="*.so*", dst="lib", src="lib", keep_path=False)
+        self.copy(pattern="*.dylib", dst="lib", src="lib", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
